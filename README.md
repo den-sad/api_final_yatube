@@ -23,25 +23,109 @@ http://127.0.0.1:8000/api/v1/jwt/
 
 ```
 http://127.0.0.1:8000/api/v1/posts/
+
 ```
+
 Работа с группами:
 Только просмотр
+
 ```
 http://127.0.0.1:8000/api/v1/groups/
 ```
+
 Добавление осуществляется из административной части сайта
+
 ```
 http://127.0.0.1:8000/admin/
 ```
 
 Работа с комментариями:
+
 ```
 http://127.0.0.1:8000/api/v1/posts/{id}/comments/
 ```
 
 Работа с подписками:
+
 ```
-http://127.0.0.1:8000/api/v1/posts/{id}/comments/
+http://127.0.0.1:8000/api/v1/follow/
+```
+
+### Примеры
+
+Получение списка постов
+
+```
+Запрос GET http://127.0.0.1:8000/api/v1/posts/
+Ответ {
+        "count": 123,
+        "next": "http://api.example.org/accounts/?offset=400&limit=100",
+        "previous": "http://api.example.org/accounts/?offset=200&limit=100",
+        "results": [
+            {}
+        ]
+    }
+```
+
+Создание новго поста
+
+```
+Запрос POST http://127.0.0.1:8000/api/v1/posts/
+    {
+        "text": "Текст поста",
+        "image": "",
+        "group": 0
+    }
+
+Ответ
+    {
+        "id": 0,
+        "author": "Username автора",
+        "text": "Текст поста",
+        "pub_date": "2019-08-24T14:15:22Z",
+        "image": Null,
+        "group": 0
+    }
+```
+
+Комментрируем пост 2
+
+```
+    Запрос POST http://127.0.0.1:8000/api/v1/posts/2/comments/
+        {
+            "text": "Комментарий к посту 2"
+        }
+    Ответ
+        {
+            "id": 0,
+            "author": "Username автора",
+            "text": "Комментарий к посту 2",
+            "created": "2019-08-24T14:15:22Z",
+            "post": 2
+        }
+```
+
+Получение списка подписок пользователя
+
+```
+    Запрос GET http://127.0.0.1:8000/api/v1/follow/
+    Ответ
+        [
+            {
+                "user": "Username пользователя",
+                "following": "Username автора"
+            }
+        ]
+    Оформление подписки
+    Запрос POST http://127.0.0.1:8000/api/v1/follow/
+        {
+            "following": "Username автора"
+        }
+    Ответ
+        {
+            "user": "Username пользователя",
+            "following": "Username автора"
+        }
 ```
 
 ### Как запустить проект:
@@ -93,3 +177,5 @@ python3 manage.py runserver
 ```
 python3 manage.py createsuperuser
 ```
+
+### Автор API Сатчин Дениc
